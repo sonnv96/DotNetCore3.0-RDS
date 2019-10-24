@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs/RDSProject
+/RDS.API/bin/Debug/netcoreapp3.0
+/RDS.API/obj
+/RDS.Core/bin/Debug/netcoreapp3.0
+/RDS.Core/obj
+/RDS.Framework/bin/Debug/netcoreapp3.0
+/RDS.Framework/obj

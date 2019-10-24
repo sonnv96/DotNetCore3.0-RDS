@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RDS.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,10 @@ namespace RDS.Core
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            //modelBuilder.Entity<User>()
-            //  .ToTable("User");
+            //modelBuilder.Entity<Product>()
+            //  .ToTable("Product");
 
-            //modelBuilder.Entity<User>()
+            //modelBuilder.Entity<Product>()
             //    .Property(u => u.Name)
             //    .HasMaxLength(100)
             //    .IsRequired();

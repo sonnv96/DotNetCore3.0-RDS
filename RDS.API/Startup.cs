@@ -19,6 +19,23 @@ namespace RDS.API
         bool useInMemoryProvider = false;
 
         public IConfiguration Configuration { get; }
+        public IHostEnvironment Environment { get; }
+
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
+        {
+            Configuration = configuration;
+            Environment = environment;
+
+            var builder = new ConfigurationBuilder()
+                 .SetBasePath(environment.ContentRootPath)
+                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                 .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", reloadOnChange: true, optional: true)
+                 .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
+        }
+
+
         public void ConfigureServices(IServiceCollection services)
         {
             // config db, because .net core 3.0 not suport Microsoft.AspNetCore 2.7, should have to installed each package
