@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using RDS.Framework.AutoMapper;
 using Microsoft.OpenApi.Models;
+using RDS.Framework.Services;
+using RDS.Framework.Services.Users;
+using RDS.Framework.Repositories;
 
 namespace RDS.API
 {
@@ -60,6 +63,9 @@ namespace RDS.API
                 }
             });
 
+            //services.AddTransient<IUserService, UserService>();
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.ResgiterServices(Configuration);
 
             // config swagger
             // Register the Swagger generator, defining 1 or more Swagger documents
