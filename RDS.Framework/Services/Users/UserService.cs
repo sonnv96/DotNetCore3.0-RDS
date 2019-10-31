@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using RDS.Core.Entities;
 using RDS.Framework.Repositories;
 using System;
@@ -14,12 +15,12 @@ namespace RDS.Framework.Services.Users
     public class UserService : IUserService
     {
         private readonly IConfiguration _config;
-        private readonly IHostingEnvironment _env;
+        private readonly IHostEnvironment _env;
         private readonly IRepository<User> _userRespository;
 
         public UserService(
            IConfiguration config,
-           IHostingEnvironment env,
+           IHostEnvironment env,
            IRepository<User> userRespository)
         {
             _config = config;

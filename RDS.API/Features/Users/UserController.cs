@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using RDS.API.Features.Base;
 using RDS.Core.Entities;
 using RDS.Framework.Helpers;
@@ -25,7 +26,7 @@ namespace RDS.API.Features.Users
 
         public UserController(
           IConfiguration config,
-          IHostingEnvironment env,
+          IHostEnvironment  env,
           IUserService userService
          ) : base(config, env)
         {
