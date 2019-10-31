@@ -101,11 +101,11 @@ namespace RDS.API.Features.Tokens
         /// <response code="400">If the request is invalid</response>   
         /// <response code="401">If the request is unauthorized</response>
         //[Route("refresh")]
-        
+
         [AllowAnonymous]
         [SwaggerRequestExample(typeof(RefreshTokenCommand.Request), typeof(RefreshTokenCommand.RequestExample))]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(RefreshTokenCommand.OkResponseExample))]
-        [HttpPost]
+        [HttpGet]
         [Route("refreshtoken")]
         public async Task<IActionResult> RefreshToken(RefreshTokenCommand.Request model)
         {

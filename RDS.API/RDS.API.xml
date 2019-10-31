@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RDS.API</name>
+    </assembly>
+    <members>
+        <member name="P:RDS.API.Features.Tokens.RefreshTokenCommand.Request.RefreshToken">
+            <summary>
+            Refresh Token
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.RefreshTokenCommand.Response.AccessToken">
+            <summary>
+            this is new Access Token
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.RefreshTokenCommand.Response.AccessTokenExpiredAt">
+            <summary>
+            This is ExpiredAt of AccessToken
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.RefreshTokenCommand.Response.RefreshToken">
+            <summary>
+            This is RefreshToken
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.RefreshTokenCommand.Response.RefreshTokenExpiredAt">
+            <summary>
+            This is ExpiredAt of RefreshToken
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.SigninCommand.Request.Username">
+            <summary>
+            This is UserName
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.SigninCommand.Request.Password">
+            <summary>
+            This is Password
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.SigninCommand.Response.AccessToken">
+            <summary>
+            This is AccessToken will be used for other APIs later
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.SigninCommand.Response.AccessTokenExpiredAt">
+            <summary>
+            This is ExpiredAt of AccessToken
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.SigninCommand.Response.RefreshToken">
+            <summary>
+            This is RefreshToken
+            </summary>
+        </member>
+        <member name="P:RDS.API.Features.Tokens.SigninCommand.Response.RefreshTokenExpiredAt">
+            <summary>
+            This is ExpiredAt of RefreshToken
+            </summary>
+        </member>
+        <member name="M:RDS.API.Features.Tokens.TokenController.Token(RDS.API.Features.Tokens.SigninCommand.Request)">
+            <summary>
+             signin
+            </summary>
+            <returns></returns>
+            <response code="200">Returns token</response>
+            <response code="400">If the request is invalid</response>   
+            <response code="401">If the request is unauthorized</response>
+        </member>
+    </members>
+</doc>
