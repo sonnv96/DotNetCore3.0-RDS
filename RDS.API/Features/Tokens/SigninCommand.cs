@@ -10,7 +10,7 @@ namespace RDS.API.Features.Tokens
 {
     public class SigninCommand
     {
-        public class Request : IValidatableObject
+        public class RequestSignin : IValidatableObject
         {
             /// <summary>
             /// This is UserName
@@ -57,7 +57,7 @@ namespace RDS.API.Features.Tokens
         {
             public object GetExamples()
             {
-                return new Request
+                return new RequestSignin
                 {
                     Username = "admin",
                     Password = "123456"

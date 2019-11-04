@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,12 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using RDS.API.Features.Users;
 using RDS.Core.Entities;
 using RDS.Core.Entities.Tokens;
 using RDS.Framework.Base;
 using RDS.Framework.Helpers;
 using RDS.Framework.Repositories;
 using Swashbuckle.AspNetCore.Filters;
+using static RDS.API.Features.Tokens.SigninCommand;
 
 namespace RDS.API.Features.Tokens
 {
@@ -55,9 +58,9 @@ namespace RDS.API.Features.Tokens
         /// <response code="401">If the request is unauthorized</response>
         [HttpPost]
         [AllowAnonymous]
-        [SwaggerRequestExample(typeof(SigninCommand.Request), typeof(SigninCommand.RequestExample))]
+        [SwaggerRequestExample(typeof(SigninCommand.RequestSignin), typeof(SigninCommand.RequestExample))]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SigninCommand.OkResponseExample))]
-        public async Task<IActionResult> Token([FromBody] SigninCommand.Request model)
+        public async Task<IActionResult> Token([FromBody] SigninCommand.RequestSignin model)
         {
             // get user by user name
             var user = await _staffRepo.Query().FirstOrDefaultAsync(x => x.Username == model.Username);
