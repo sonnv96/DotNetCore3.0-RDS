@@ -17,9 +17,26 @@ namespace RDS.Core.Entities
         public string Username { get; set; }
 
         /// <summary>
-        /// Full name
+        /// First Name
         /// </summary>
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Last name
+        /// </summary>
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Hashed password
+        /// </summary>
+        public string HashedPassword { get; set; }
+
+
+        /// <summary>
+        /// Phone number
+        /// </summary>
+        public string SaltPassword { get; set; }
+
 
         /// <summary>
         /// Phone number
@@ -64,11 +81,6 @@ namespace RDS.Core.Entities
         /// Password
         /// </summary>
         public string Password { get; set; }
-
-        /// <summary>
-        /// Password salt
-        /// </summary>
-        public string PasswordSalt { get; set; }
 
         /// <summary>
         /// User is deleted

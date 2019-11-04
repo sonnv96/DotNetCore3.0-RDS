@@ -18,8 +18,8 @@ namespace RDS.Core
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            //modelBuilder.Entity<Product>()
-            //  .ToTable("Product");
+            modelBuilder.Entity<User>()
+              .ToTable("User");
 
             //modelBuilder.Entity<Product>()
             //    .Property(u => u.Name)

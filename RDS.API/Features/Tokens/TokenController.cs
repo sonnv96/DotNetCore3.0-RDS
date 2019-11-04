@@ -27,7 +27,7 @@ namespace RDS.API.Features.Tokens
     {
         private readonly IConfiguration _config;
         private readonly IHostEnvironment _env;
-        private readonly IRepository<User> _staffRepo;
+        private readonly IRepository<User> _userRepo;
         private readonly IRepository<BearerToken> _bearerTokenRepo;
         private readonly int jwtExpMins;
         private readonly int jwtRefExpMins;
@@ -36,12 +36,12 @@ namespace RDS.API.Features.Tokens
         public TokenController(
            IConfiguration config,
            IHostEnvironment env,
-           IRepository<User> staffRepo,
+           IRepository<User> userRepo,
            IRepository<BearerToken> bearerTokenRepo)
         {
             _config = config;
             _env = env;
-            _staffRepo = staffRepo;
+            _userRepo = userRepo;
             _bearerTokenRepo = bearerTokenRepo;
             jwtExpMins = Convert.ToInt32(_config["BearerJwt:JwtExpMins"]);
             jwtRefExpMins = Convert.ToInt32(_config["BearerJwt:JwtRefExpMins"]);
@@ -63,7 +63,7 @@ namespace RDS.API.Features.Tokens
         public async Task<IActionResult> Token([FromBody] SigninCommand.RequestSignin model)
         {
             // get user by user name
-            var user = await _staffRepo.Query().FirstOrDefaultAsync(x => x.Username == model.Username);
+            var user = await _userRepo.Query().FirstOrDefaultAsync(x => x.Username == model.Username);
             if (user == null)
                 return ResponseHelper.BadRequest("Wrong username or password");
 
@@ -71,7 +71,7 @@ namespace RDS.API.Features.Tokens
                 return ResponseHelper.BadRequest("User has been blocked");
 
             // verify hashed password
-            var result = PasswordHelper.VerifyHashedPassword(model.Password, user.Password, user.PasswordSalt);
+            var result = PasswordHelper.VerifyHashedPassword(model.Password, user.Password, user.SaltPassword);
             if (!result)
                 return ResponseHelper.BadRequest("Wrong username or password");
 
@@ -120,7 +120,7 @@ namespace RDS.API.Features.Tokens
                 return ResponseHelper.BadRequest("Invalid RefreshToken");
 
             // get current user
-            var user = await _staffRepo.Query()
+            var user = await _userRepo.Query()
                 .FirstOrDefaultAsync(x => x.Id == bearerToken.StaffId);
 
             // check csn
