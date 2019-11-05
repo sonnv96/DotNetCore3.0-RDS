@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RDS.Core.Entities;
+using RDS.Core.Entities.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,10 @@ namespace RDS.Core
             }
 
             modelBuilder.Entity<User>()
-              .ToTable("User");
+              .ToTable("Users");
+
+            modelBuilder.Entity<BearerToken>()
+            .ToTable("BearerTokens");
 
             //modelBuilder.Entity<Product>()
             //    .Property(u => u.Name)

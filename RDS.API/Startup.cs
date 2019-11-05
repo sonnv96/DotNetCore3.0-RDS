@@ -16,6 +16,15 @@ using Swashbuckle.AspNetCore.Filters;
 using System.IO;
 using System;
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Primitives;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using RDS.Framework.Helpers;
 
 namespace RDS.API
 {
@@ -87,6 +96,8 @@ namespace RDS.API
                         Scheme = "Bearer"
                     });
 
+            
+
                     c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                     {
                         {
@@ -102,77 +113,15 @@ namespace RDS.API
                                 In = ParameterLocation.Header,
 
                             },
-                            new List<string>()
+                            new string[] { }
                         }
                     });
+
 
                 });
 
 
-            //services.AddSwaggerGen(c =>
-            //    {
-            //        c.SwaggerDoc("v1", new OpenApiInfo {
-            //            Version = "v1",
-            //            Title = "ToDo API",
-            //            Description = "A simple example ASP.NET Core Web API",
-            //            TermsOfService = new Uri("https://example.com/terms"),
-            //            Contact = new OpenApiContact
-            //            {
-            //                Name = "Shayne Boyer",
-            //                Email = string.Empty,
-            //                Url = new Uri("https://twitter.com/spboyer"),
-            //            },
-            //            License = new OpenApiLicense
-            //            {
-            //                Name = "Use under LICX",
-            //                Url = new Uri("https://example.com/license"),
-            //            }
-            //        });
-
-            //        //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            //        //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            //        //c.IncludeXmlComments(xmlPath);
-            //    });
-
-
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new Info
-            //    {
-            //        Version = "v1",
-            //        Title = "ToDo API",
-            //        Description = "A simple example ASP.NET Core Web API",
-            //    });
-
-            //    // Set the comments path for the Swagger JSON and UI.
-            //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            //    c.IncludeXmlComments(xmlPath);
-            //});
-
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Diamond API", Version = "v1" });
-            //});
-
-            // add cors
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowAll",
-            //        builder => builder.AllowAnyOrigin()
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader()
-            //        .AllowCredentials());
-            //});
-
-            // add cors
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowOrigin",
-            //        builder => builder.AllowAnyOrigin()
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader());
-            //});
+           
 
             services.AddCors(options =>
             {
@@ -183,14 +132,7 @@ namespace RDS.API
             });
 
 
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(new ProducesAttribute("application/json"));
-            //})
-            //.SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-            //.AddDataAnnotationsLocalization()
-            //.AddNewtonsoftJson();
-
+           
             services.AddControllers()
                 .AddNewtonsoftJson();
 
@@ -205,6 +147,55 @@ namespace RDS.API
             services.AddSingleton(mapper);
 
             services.AddMvc();
+
+            services
+          .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+          .AddJwtBearer(options =>
+          {
+              options.RequireHttpsMetadata = false;
+              options.SaveToken = true;
+              options.SecurityTokenValidators.Clear();
+              options.SecurityTokenValidators.Add(new JwtSecurityTokenHandler
+              {
+                  InboundClaimTypeMap = new Dictionary<string, string>()
+              });
+              options.TokenValidationParameters = new TokenValidationParameters()
+              {
+                  ValidateIssuerSigningKey = true,
+                  IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["BearerJwt:JwtKey"])),
+                  ValidateIssuer = false,
+                   //ValidIssuer = Configuration["BearerJwt:JwtIssuer"],
+                   ValidateAudience = false,
+                   //ValidAudience = Configuration["BearerJwt:JwtAudience"],
+                   ValidateLifetime = true,
+                  ClockSkew = TimeSpan.Zero,
+
+                   //Now, every time you get the user’s name through the User.Identity.Name property, it will look for the value of the name claim on the user, and return the correct value for the user’s name.
+                   NameClaimType = JwtRegisteredClaimNames.UniqueName
+              };
+
+              options.Events = new JwtBearerEvents
+              {
+                   //"hack" for signalr
+                   OnMessageReceived = context =>
+                  {
+                      if (context.Request.Query.TryGetValue("access_token", out StringValues token) && !string.IsNullOrEmpty(token))
+                          context.Token = token;
+
+                      return Task.CompletedTask;
+                  },
+
+                   // Skip the default logic.
+                   OnChallenge = context =>
+                  {
+                      context.HandleResponse();
+                      context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                      context.Response.ContentType = "application/json";
+                      var json = ResponseHelper.FailJson(StatusCodes.Status401Unauthorized.ToString(), "Unauthorized");
+                      return context.Response.WriteAsync(JsonConvert.SerializeObject(json), Encoding.UTF8);
+                  }
+              };
+          });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -230,6 +221,7 @@ namespace RDS.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors("CorsPolicy");

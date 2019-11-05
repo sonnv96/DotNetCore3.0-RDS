@@ -18,8 +18,7 @@ using Swashbuckle.AspNetCore.Filters;
 namespace RDS.API.Features.Users
 {
     [Route("api/[controller]")]
-    [Authorize]
-    [ApiController]
+ 
     public class UserController : BaseApiController
     {
         private readonly IUserService _userService;
