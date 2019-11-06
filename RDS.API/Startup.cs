@@ -42,6 +42,7 @@ namespace RDS.API
             Configuration = configuration;
             Environment = environment;
 
+            // config appsetting json
             var builder = new ConfigurationBuilder()
                  .SetBasePath(environment.ContentRootPath)
                  .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -76,7 +77,7 @@ namespace RDS.API
                 }
             });
 
-            //services.AddTransient<IUserService, UserService>();
+            // resgister service and add Reponsitory
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.ResgiterServices(Configuration);
 
@@ -96,8 +97,7 @@ namespace RDS.API
                         Scheme = "Bearer"
                     });
 
-            
-
+                // config bearer in swagger
                     c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                     {
                         {
@@ -121,8 +121,7 @@ namespace RDS.API
                 });
 
 
-           
-
+            // add cors
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -148,9 +147,9 @@ namespace RDS.API
 
             services.AddMvc();
 
-            services
-          .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-          .AddJwtBearer(options =>
+            // config jwt token
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
           {
               options.RequireHttpsMetadata = false;
               options.SaveToken = true;
@@ -196,7 +195,7 @@ namespace RDS.API
                   }
               };
           });
-        }
+            }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -206,16 +205,6 @@ namespace RDS.API
                 app.UseDeveloperExceptionPage();
 
             }
-
-            //app.UseRouting();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync("Hello World!");
-            //    });
-            //});
 
             app.UseHttpsRedirection();
 
