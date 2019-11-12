@@ -27,16 +27,9 @@ namespace RDS.Core.Entities
         public string LastName { get; set; }
 
         /// <summary>
-        /// Hashed password
-        /// </summary>
-        public string HashedPassword { get; set; }
-
-
-        /// <summary>
         /// Phone number
         /// </summary>
         public string SaltPassword { get; set; }
-
 
         /// <summary>
         /// Phone number
@@ -66,6 +59,7 @@ namespace RDS.Core.Entities
         /// <summary>
         /// Gender
         /// </summary>
+        /// 
         public Gender Gender
         {
             get { return (Gender)GenderId; }

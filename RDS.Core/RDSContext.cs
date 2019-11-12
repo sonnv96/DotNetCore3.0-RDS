@@ -20,7 +20,8 @@ namespace RDS.Core
             }
 
             modelBuilder.Entity<User>()
-              .ToTable("Users");
+              .ToTable("Users")
+              .Ignore(x => x.Gender);
 
             modelBuilder.Entity<BearerToken>()
             .ToTable("BearerTokens");

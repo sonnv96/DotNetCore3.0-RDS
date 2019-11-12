@@ -34,10 +34,10 @@ namespace RDS.Framework.Helpers
             return hashed;
         }
 
-        public static bool VerifyHashedPassword(string password, string hashedPassword, string saltPassword)
+        public static bool VerifyHashedPassword(string passwordParams, string password, string saltPassword)
         {
-            var verifyPassword = GenerateHashPassword(password, saltPassword);
-            return verifyPassword == hashedPassword;
+            var verifyPassword = GenerateHashPassword(passwordParams, saltPassword);
+            return verifyPassword == password;
         }
     }
 }
