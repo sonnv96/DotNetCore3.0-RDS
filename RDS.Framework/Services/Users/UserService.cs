@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using RDS.Core.Entities;
+using RDS.Framework.Helpers;
 using RDS.Framework.Repositories;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,12 +31,17 @@ namespace RDS.Framework.Services.Users
         }
 
 
-        public IQueryable<User> GetUserListByOptions()
+        public IQueryable<User> FilterUserListByOptions()
         {
-
-            return  _userRespository.Query().AsNoTracking();
-
+            // init query
+            var query = _userRespository.Query().AsNoTracking();
+            return query;
         }
 
+
     }
+
+
 }
+
+
