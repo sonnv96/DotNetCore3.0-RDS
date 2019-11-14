@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using RDS.Core;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using RDS.Framework.AutoMapper;
 using Microsoft.OpenApi.Models;
 using RDS.Framework.Services;
 using RDS.Framework.Services.Users;
@@ -25,6 +24,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using RDS.Framework.Helpers;
+using RDS.API.AutoMapper;
 
 namespace RDS.API
 {

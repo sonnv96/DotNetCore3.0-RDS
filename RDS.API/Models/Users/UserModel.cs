@@ -22,13 +22,4 @@ namespace RDS.API.Models.Users
         public string FirstName { get; set; }
     }
 
-    public class MappingProfile : Profile
-    {
-        public MappingProfile()
-        {
-            CreateMap<User, Response>(); // means you want to map from User to UserDTO
-            CreateMap<Response, User>(); // means you want to map from User to UserDTO
-            CreateMap<Response, Response2>(); // means you want to map from User to UserDTO
-        }
-    }
 }

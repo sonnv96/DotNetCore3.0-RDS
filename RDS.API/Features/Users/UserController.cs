@@ -39,7 +39,7 @@ namespace RDS.API.Features.Users
 
         [HttpGet("all")]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(User))]
-        public async Task<ActionResult> GetAllUser(int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<ActionResult> GetAllUser(int pageIndex = 1, int pageSize = int.MaxValue)
         {
             var product = new List<Response>();
             var product2 = new List<Response2>();
@@ -58,7 +58,6 @@ namespace RDS.API.Features.Users
                 pageIndex, pageSize,
                 x => x
                 );
-            _mapper.Map(product, product2);
             _mapper.Map(users.Items, product);
 
 

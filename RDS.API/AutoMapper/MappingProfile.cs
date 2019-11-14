@@ -1,19 +1,20 @@
 ﻿using AutoMapper;
+using RDS.API.Models.Users;
 using RDS.Core.Entities;
-using RDS.Framework.Services.Users;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace RDS.Framework.AutoMapper
+namespace RDS.API.AutoMapper
 {
     public class MappingProfile : Profile
     {
 
         public MappingProfile()
         {
-            // Add as many of these lines as you need to map your objects
-            
+            CreateMap<User, Response>();
+            CreateMap<Response, Response2>();
         }
     }
 }
