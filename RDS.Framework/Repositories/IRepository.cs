@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RDS.Framework.Repositories
 {
-    public interface IRepository<T> where T : class, IBaseEntity
+    public interface IRepository<T> where T : BaseEntity
     {
         IQueryable<T> Query();
 

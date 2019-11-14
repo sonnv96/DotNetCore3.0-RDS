@@ -96,32 +96,32 @@ namespace RDS.API.Features.Users
                 }
 
 
-                //Add user role
-                if (model.Roles != null && model.Roles.Any())
-                {
-                    //get list user role identity
-                    var ids = model.Roles.Select(x => x.Id).ToList();
-                    //Get list user role from database
-                    var userRoles = _userRoleService.GetByIds(ids);
+                ////Add user role
+                //if (model.Roles != null && model.Roles.Any())
+                //{
+                //    //get list user role identity
+                //    var ids = model.Roles.Select(x => x.Id).ToList();
+                //    //Get list user role from database
+                //    var userRoles = _userRoleService.GetByIds(ids);
 
-                    // Check valid user roles input
-                    if (userRoles.Count() != ids.Count)
-                    {
-                        res.ErrorMessages.Add("User.InvalidRoles");
-                        return ResponseHelper.BadRequest(res.ErrorMessages);
-                    }
+                //    // Check valid user roles input
+                //    if (userRoles.Count() != ids.Count)
+                //    {
+                //        res.ErrorMessages.Add("User.InvalidRoles");
+                //        return ResponseHelper.BadRequest(res.ErrorMessages);
+                //    }
 
-                    var rolesInactive = userRoles.Where(x => !x.IsActive || x.Deleted);
-                    if (rolesInactive.Any())
-                    {
-                        res.ErrorMessages.Add(string.Join(",", rolesInactive.Select(x => x.Name)));
-                        res.ErrorMessages.Add("User.InactiveOrDeletedRoles");
-                        return ResponseHelper.BadRequest(res.ErrorMessages);
-                    }
+                //    var rolesInactive = userRoles.Where(x => !x.IsActive || x.Deleted);
+                //    if (rolesInactive.Any())
+                //    {
+                //        res.ErrorMessages.Add(string.Join(",", rolesInactive.Select(x => x.Name)));
+                //        res.ErrorMessages.Add("User.InactiveOrDeletedRoles");
+                //        return ResponseHelper.BadRequest(res.ErrorMessages);
+                //    }
 
-                    // set roles for user
-                    Mapper.Map(userRoles, entity.UserRoles);
-                }
+                //    // set roles for user
+                //    Mapper.Map(userRoles, entity.UserRoles);
+                //}
                 //Create entity
                 var entity = _mapper.Map<UserAddModel, User>(model);
             }
