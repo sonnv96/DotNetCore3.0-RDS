@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using RDS.Core.Entities.Users;
 using RDS.Framework.Repositories;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RDS.Framework.Services.Users
 {
@@ -31,6 +33,18 @@ namespace RDS.Framework.Services.Users
             var query = _userRespository.Query().AsNoTracking();
             return query;
         }
+
+        public virtual async Task<bool> CheckExistAsync(Func<User, bool> fieldCheck, int? entityId = null)
+        {
+            var query = _userRespository.Query();
+            if (entityId.HasValue)
+            {
+                query = query.Where(x => x.Id != entityId);
+            }
+            return await Task.FromResult(query.Any(fieldCheck));
+        }
+
+
 
 
     }

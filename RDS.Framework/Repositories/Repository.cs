@@ -14,7 +14,7 @@ using Z.EntityFramework.Plus;
 
 namespace RDS.Framework.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : IBaseEntity
     {
         #region Insert/Update/Delete
         public IDbContextTransaction BeginTransaction()

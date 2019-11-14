@@ -147,6 +147,8 @@ namespace RDS.API
 
             services.AddMvc();
 
+            services.AddHttpContextAccessor();
+
             // config jwt token
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

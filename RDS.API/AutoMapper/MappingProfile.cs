@@ -9,8 +9,7 @@ namespace RDS.API.AutoMapper
 
         public MappingProfile()
         {
-            CreateMap<User, Response>();
-            CreateMap<Response, Response2>();
+            CreateMap<User, UserModel>();
         }
     }
 }

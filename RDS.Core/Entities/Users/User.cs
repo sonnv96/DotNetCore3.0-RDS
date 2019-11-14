@@ -87,6 +87,21 @@ namespace RDS.Core.Entities.Users
         /// </summary>
         public bool IsActive { get; set; }
 
+        /// Get or set latest logged-in
+        /// </summary>
+        public DateTime LatestLoggedin { get; set; }
+
+        private ICollection<UserRole> _userRole;
+
+        /// <summary>
+        /// User roles
+        /// </summary>
+        public virtual ICollection<UserRole> UserRoles
+        {
+            get { return _userRole ?? (_userRole = new List<UserRole>()); }
+            set { _userRole = value; }
+        }
+
     }
 
 
