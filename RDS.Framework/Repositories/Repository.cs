@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using RDS.Core;
 using RDS.Core.Entities;
+using RDS.Core.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;

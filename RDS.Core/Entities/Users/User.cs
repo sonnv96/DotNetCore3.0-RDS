@@ -1,8 +1,9 @@
-﻿using System;
+﻿using RDS.Core.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RDS.Core.Entities
+namespace RDS.Core.Entities.Users
 {
     public class User : BaseEntity
     {

@@ -1,10 +1,5 @@
-﻿using RDS.Core.Entities;
-using RDS.Framework.Helpers;
-using System;
-using System.Collections.Generic;
+﻿using RDS.Core.Entities.Users;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RDS.Framework.Services.Users
 {

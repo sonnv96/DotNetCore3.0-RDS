@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RDS.Core.Entities.Base;
+using System;
 
 namespace RDS.Core.Entities.Tokens
 {

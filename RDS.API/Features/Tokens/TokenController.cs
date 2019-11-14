@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using RDS.API.Features.Users;
 using RDS.Core.Entities;
 using RDS.Core.Entities.Tokens;
+using RDS.Core.Entities.Users;
 using RDS.Framework.Base;
 using RDS.Framework.Helpers;
 using RDS.Framework.Repositories;

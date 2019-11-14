@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RDS.Core.Entities;
 using RDS.Core.Entities.Tokens;
-using System;
-using System.Collections.Generic;
+using RDS.Core.Entities.Users;
 using System.Linq;
-using System.Text;
 
 namespace RDS.Core
 {

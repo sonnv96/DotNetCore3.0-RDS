@@ -2,15 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using RDS.Core.Entities;
-using RDS.Framework.Helpers;
+using RDS.Core.Entities.Users;
 using RDS.Framework.Repositories;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RDS.Framework.Services.Users
 {

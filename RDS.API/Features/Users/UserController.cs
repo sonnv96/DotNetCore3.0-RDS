@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using RDS.API.Features.Base;
 using RDS.API.Models.Users;
 using RDS.Core.Entities;
+using RDS.Core.Entities.Users;
 using RDS.Framework.Helpers;
 using RDS.Framework.Services.Users;
 using Swashbuckle.AspNetCore.Filters;
@@ -42,15 +43,7 @@ namespace RDS.API.Features.Users
         public async Task<ActionResult> GetAllUser(int pageIndex = 1, int pageSize = int.MaxValue)
         {
             var product = new List<Response>();
-            var product2 = new List<Response2>();
 
-            var a = new Response
-            {
-                Id = 1,
-                FirstName = "abc"
-            };
-
-            product.Add(a);
             var query = _userService.FilterUserListByOptions();
         
             var users = await PagingHelper.Page(
@@ -61,7 +54,7 @@ namespace RDS.API.Features.Users
             _mapper.Map(users.Items, product);
 
 
-            return ResponseHelper.Ok(users, "Succes");
+            return ResponseHelper.Ok(product, "Succes");
         }
 
 
