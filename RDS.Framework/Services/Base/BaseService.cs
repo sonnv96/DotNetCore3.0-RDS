@@ -13,26 +13,7 @@ namespace RDS.Framework.Services.Base
 {
     public class BaseService<T> : IBaseService<T> where T : BaseEntity
     {
-        #region Insert/Update/Delete
-        public IDbContextTransaction BeginTransaction()
-        {
-            return Context.Database.BeginTransaction();
-        }
-
-        public virtual T GetById(int id)
-        {
-            //see some suggested performance optimization (not tested)
-            //http://stackoverflow.com/questions/11686225/dbset-find-method-ridiculously-slow-compared-to-singleordefault-on-id/11688189#comment34876113_11688189
-            return DbSet.Find(id);
-        }
-        //public async Task FindOne(int id)
-        //{
-        //    await DbSet<>.Find(id);
-        //}
-
-        #endregion
-
-
+        
         #region contructor
 
         public BaseService(RDSContext context)
@@ -47,6 +28,17 @@ namespace RDS.Framework.Services.Base
 
 
         #endregion
+        #region Insert/Update/Delete
+
+        public async Task<T> FindOne(int id)
+        {
+
+            return await DbSet.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        #endregion
+
+
 
 
     }

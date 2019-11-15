@@ -8,6 +8,6 @@ namespace RDS.Framework.Services.Base
 {
     public interface IBaseService<T> where T : BaseEntity
     {
-        Task FindOne(int id);
+        Task<T> FindOne(int id);
     }
 }

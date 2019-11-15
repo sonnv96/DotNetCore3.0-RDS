@@ -56,6 +56,8 @@ namespace RDS.API.Features.Users
                 _mapper.Map(users.Items, res.Users);
                 res.TotalItems = users.TotalItems;
 
+                var a = _userService.FindOne(2);
+
 
                 return ResponseHelper.Ok(res, "Success");
 
@@ -68,70 +70,70 @@ namespace RDS.API.Features.Users
            
         }
 
-        [HttpGet("all")]
-        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(User))]
-        public async Task<ActionResult> Add([FromBody] UserAddModel model)
-        {
-            var res = new ApiJsonHelper();
+        //[HttpGet("all")]
+        //[SwaggerResponseExample(StatusCodes.Status200OK, typeof(User))]
+        //public async Task<ActionResult> Add([FromBody] UserAddModel model)
+        //{
+        //    var res = new ApiJsonHelper();
 
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    res.ErrorMessages.AddRange(ModelState.ToListErrorMessage());
-                    return ResponseHelper.BadRequest(res.ErrorMessages);
-                }
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            res.ErrorMessages.AddRange(ModelState.ToListErrorMessage());
+        //            return ResponseHelper.BadRequest(res.ErrorMessages);
+        //        }
 
-                var exist = await _userService.CheckExistAsync(s => s.Username == model.Username);
-                if (exist)
-                {
-                    res.ErrorMessages.Add("User is exited");
-                    return ResponseHelper.BadRequest(res.ErrorMessages);
-                }
+        //        var exist = await _userService.CheckExistAsync(s => s.Username == model.Username);
+        //        if (exist)
+        //        {
+        //            res.ErrorMessages.Add("User is exited");
+        //            return ResponseHelper.BadRequest(res.ErrorMessages);
+        //        }
 
-                if (!string.IsNullOrEmpty(model.Email) && await _userService.CheckExistAsync(s => s.Email == model.Email))
-                {
-                    res.ErrorMessages.Add("User.EmailInUsedByAnother");
-                    return ResponseHelper.BadRequest(res.ErrorMessages);
-                }
+        //        if (!string.IsNullOrEmpty(model.Email) && await _userService.CheckExistAsync(s => s.Email == model.Email))
+        //        {
+        //            res.ErrorMessages.Add("User.EmailInUsedByAnother");
+        //            return ResponseHelper.BadRequest(res.ErrorMessages);
+        //        }
 
 
-                ////Add user role
-                //if (model.Roles != null && model.Roles.Any())
-                //{
-                //    //get list user role identity
-                //    var ids = model.Roles.Select(x => x.Id).ToList();
-                //    //Get list user role from database
-                //    var userRoles = _userRoleService.GetByIds(ids);
+        //        ////Add user role
+        //        //if (model.Roles != null && model.Roles.Any())
+        //        //{
+        //        //    //get list user role identity
+        //        //    var ids = model.Roles.Select(x => x.Id).ToList();
+        //        //    //Get list user role from database
+        //        //    var userRoles = _userRoleService.GetByIds(ids);
 
-                //    // Check valid user roles input
-                //    if (userRoles.Count() != ids.Count)
-                //    {
-                //        res.ErrorMessages.Add("User.InvalidRoles");
-                //        return ResponseHelper.BadRequest(res.ErrorMessages);
-                //    }
+        //        //    // Check valid user roles input
+        //        //    if (userRoles.Count() != ids.Count)
+        //        //    {
+        //        //        res.ErrorMessages.Add("User.InvalidRoles");
+        //        //        return ResponseHelper.BadRequest(res.ErrorMessages);
+        //        //    }
 
-                //    var rolesInactive = userRoles.Where(x => !x.IsActive || x.Deleted);
-                //    if (rolesInactive.Any())
-                //    {
-                //        res.ErrorMessages.Add(string.Join(",", rolesInactive.Select(x => x.Name)));
-                //        res.ErrorMessages.Add("User.InactiveOrDeletedRoles");
-                //        return ResponseHelper.BadRequest(res.ErrorMessages);
-                //    }
+        //        //    var rolesInactive = userRoles.Where(x => !x.IsActive || x.Deleted);
+        //        //    if (rolesInactive.Any())
+        //        //    {
+        //        //        res.ErrorMessages.Add(string.Join(",", rolesInactive.Select(x => x.Name)));
+        //        //        res.ErrorMessages.Add("User.InactiveOrDeletedRoles");
+        //        //        return ResponseHelper.BadRequest(res.ErrorMessages);
+        //        //    }
 
-                //    // set roles for user
-                //    Mapper.Map(userRoles, entity.UserRoles);
-                //}
-                //Create entity
-                var entity = _mapper.Map<UserAddModel, User>(model);
-            }
-            catch (Exception ex)
-            {
-                res.ErrorMessages.Add(ex.Message);
-                return ResponseHelper.BadRequest(res.ErrorMessages);
-            }
+        //        //    // set roles for user
+        //        //    Mapper.Map(userRoles, entity.UserRoles);
+        //        //}
+        //        //Create entity
+        //        var entity = _mapper.Map<UserAddModel, User>(model);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        res.ErrorMessages.Add(ex.Message);
+        //        return ResponseHelper.BadRequest(res.ErrorMessages);
+        //    }
 
-        }
+        //}
 
 
     }
