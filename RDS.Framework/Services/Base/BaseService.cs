@@ -1,37 +1,53 @@
-﻿//using RDS.Core.Entities.Base;
-//using RDS.Framework.Repositories;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using RDS.Core;
+using RDS.Core.Entities.Base;
+using RDS.Framework.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-//namespace RDS.Framework.Services.Base
-//{
-//    public abstract class BaseService<T> : IBaseService<T> where T : class, IBaseEntity
-//    {
-//        protected readonly IRepository<T> _tRepository;
+namespace RDS.Framework.Services.Base
+{
+    public class BaseService<T> : IBaseService<T> where T : BaseEntity
+    {
+        #region Insert/Update/Delete
+        public IDbContextTransaction BeginTransaction()
+        {
+            return Context.Database.BeginTransaction();
+        }
 
-//        public BaseService(IRepository<T> tRepository)
-//        {
-//            this._tRepository = tRepository;
-//        }
+        public virtual T GetById(int id)
+        {
+            //see some suggested performance optimization (not tested)
+            //http://stackoverflow.com/questions/11686225/dbset-find-method-ridiculously-slow-compared-to-singleordefault-on-id/11688189#comment34876113_11688189
+            return DbSet.Find(id);
+        }
+        //public async Task FindOne(int id)
+        //{
+        //    await DbSet<>.Find(id);
+        //}
 
-//        protected abstract string PatternKey { get; }
-//        #region Synchronous
-        
-//        public virtual async Task<bool> CheckExistAsync(Func<T, bool> fieldCheck, int? entityId = null)
-//        {
-//            var query = _tRepository.Query();
-//            if (entityId.HasValue)
-//            {
-//                query = query.Where(x => x.Id != entityId);
-//            }
-//            return await Task.FromResult(query.Any(fieldCheck));
-//        }
+        #endregion
 
-      
-//        #endregion
 
-//    }
-//}
+        #region contructor
+
+        public BaseService(RDSContext context)
+        {
+            Context = context;
+            DbSet = Context.Set<T>();
+        }
+
+        private readonly RDSContext Context;
+
+        private readonly DbSet<T> DbSet;
+
+
+        #endregion
+
+
+    }
+}
