@@ -5,9 +5,9 @@ using System.Text;
 
 namespace RDS.Core.Entities.Users
 {
-    public class Permission : BaseEntity
+    public class Permission : IBaseEntity
     {
-      
+        public int Id { get; set; }
         /// <summary>
         /// Permission name
         /// </summary>

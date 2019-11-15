@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
+    <PackageReference Include="EntityFramework" Version="6.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />

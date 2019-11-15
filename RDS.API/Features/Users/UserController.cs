@@ -40,26 +40,21 @@ namespace RDS.API.Features.Users
 
         [HttpGet("all")]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(User))]
-        public async Task<ActionResult> List(int pageIndex = 1, int pageSize = int.MaxValue)
+        public IActionResult List(int pageIndex = 1, int pageSize = int.MaxValue)
         {
             var res = new UserListModel();
 
             try
             {
-                var query = _userService.FilterUserListByOptions();
+                var query = _userService.Search();
 
-                var users = await PagingHelper.Page(
-                    query,
-                    pageIndex, pageSize,
-                    x => x
-                    );
-                _mapper.Map(users.Items, res.Users);
-                res.TotalItems = users.TotalItems;
-
-                var a = _userService.FindOne(2);
+                
+                //_mapper.Map(users.Items, res.Users);
+                //res.TotalItems = users.TotalItems;
 
 
-                return ResponseHelper.Ok(res, "Success");
+
+                return ResponseHelper.Ok(query, "Success");
 
             } catch (Exception ex)
             {

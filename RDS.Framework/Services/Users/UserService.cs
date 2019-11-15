@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using RDS.Core;
 using RDS.Core.Entities.Users;
+using RDS.Framework.Helpers;
 using RDS.Framework.Repositories;
 using RDS.Framework.Services.Base;
 using System;
@@ -16,38 +17,26 @@ namespace RDS.Framework.Services.Users
     {
         private readonly IConfiguration _config;
         private readonly IHostEnvironment _env;
-        private readonly IRepository<User> _userRespository;
 
         public UserService(
-           RDSContext context,
            IConfiguration config,
            IHostEnvironment env,
-           IRepository<User> userRespository) :base(context)
+           IRepository<User> tRespository) : base(tRespository)
         {
             _config = config;
             _env = env;
-            _userRespository = userRespository;
         }
 
 
-        public IQueryable<User> FilterUserListByOptions()
+        public IPagedList<User> Search(int pageIndex = 0, int pageSize = int.MaxValue, string textSearch = null, string propertySorting = null, bool orderDescending = false, bool includeCurrentUser = true)
         {
-            // init query
-            var query = _userRespository.Query().AsNoTracking();
-            return query;
+            var query = _tRepository.Table;
+            var a = query.ToList();
+            query = query.Where(x => !x.Username.ToLower().Equals("admin"));
+            if (!string.IsNullOrEmpty(textSearch))
+                query = query.Where(x => x.Username.Contains(textSearch) || x.FirstName.Contains(textSearch) || x.Email.Contains(textSearch));
+            return new PagedList<User>(query.OrderByDynamic(propertySorting, "Username", orderDescending), pageIndex, pageSize) as IPagedList<User>;
         }
-
-        public virtual async Task<bool> CheckExistAsync(Func<User, bool> fieldCheck, int? entityId = null)
-        {
-            var query = _userRespository.Query();
-            if (entityId.HasValue)
-            {
-                query = query.Where(x => x.Id != entityId);
-            }
-            return await Task.FromResult(query.Any(fieldCheck));
-        }
-
-
 
 
     }

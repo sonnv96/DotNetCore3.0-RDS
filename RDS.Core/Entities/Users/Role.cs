@@ -5,8 +5,9 @@ using System.Text;
 
 namespace RDS.Core.Entities.Users
 {
-    public class Role : BaseEntity
+    public class Role : IBaseEntity
     {
+        public int Id { get; set; }
         /// <summary>
         /// System name
         /// </summary>
