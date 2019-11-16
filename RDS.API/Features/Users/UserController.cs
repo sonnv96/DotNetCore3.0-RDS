@@ -21,7 +21,7 @@ using Swashbuckle.AspNetCore.Filters;
 namespace RDS.API.Features.Users
 {
     [Route("api/[controller]")]
- 
+
     public class UserController : BaseApiController
     {
         private readonly IUserService _userService;
@@ -29,7 +29,7 @@ namespace RDS.API.Features.Users
 
         public UserController(
           IConfiguration config,
-          IHostEnvironment  env,
+          IHostEnvironment env,
           IMapper mapper,
           IUserService userService
          ) : base(config, env)
@@ -48,7 +48,7 @@ namespace RDS.API.Features.Users
             {
                 var query = _userService.Search();
 
-                
+
                 //_mapper.Map(users.Items, res.Users);
                 //res.TotalItems = users.TotalItems;
 
@@ -56,14 +56,45 @@ namespace RDS.API.Features.Users
 
                 return ResponseHelper.Ok(query, "Success");
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 res.ErrorMessages.Add(ex.Message);
                 return ResponseHelper.BadRequest(res.ErrorMessages);
             }
 
-           
+
         }
+
+        [HttpGet("detail/{id}")]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(User))]
+        public IActionResult Detail(int id)
+        {
+            var res = new UserListModel();
+            try
+            {
+                //get user by identity
+                var user = _userService.GetById(id);
+
+                if (user == null)
+                {
+                    //not create before
+                    return ResponseHelper.BadRequest(res.ErrorMessages);
+                }
+
+                //user.UserRoles = user.UserRoles.Where(x => x.IsActive && !x.Deleted).ToList();
+
+
+                return ResponseHelper.Ok(user, "Success");
+
+            }
+            catch (Exception ex)
+            {
+                res.ErrorMessages.Add(ex.Message);
+                return ResponseHelper.BadRequest(res.ErrorMessages);
+            }
+        }
+
 
         //[HttpGet("all")]
         //[SwaggerResponseExample(StatusCodes.Status200OK, typeof(User))]
