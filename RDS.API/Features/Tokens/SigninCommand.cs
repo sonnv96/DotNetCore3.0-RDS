@@ -51,6 +51,16 @@ namespace RDS.API.Features.Tokens
             /// This is ExpiredAt of RefreshToken
             /// </summary>
             public string RefreshTokenExpiredAt { get; set; }
+
+            /// <summary>
+            /// This is UserName
+            /// </summary>
+            public string UserName { get; set; }
+
+            /// <summary>
+            /// This is UserId
+            /// </summary>
+            public string UserId { get; set; }
         }
 
         public class RequestExample : IExamplesProvider

@@ -81,12 +81,13 @@ namespace RDS.API.Features.Tokens
             // generate refreshtoken
             var refTokenRecord = new BearerToken
             {
-                StaffId = user.Id,
+                UserId = user.Id,
                 AccToken = accessToken,
                 RefToken = Guid.NewGuid().ToString().Replace("-", "") + Guid.NewGuid().ToString().Replace("-", ""),
                 RefTokenExpAt = DateTime.UtcNow.AddMinutes(jwtRefExpMins),
             };
             await _bearerTokenRepo.InsertAsync(refTokenRecord);
+
 
             return ResponseHelper.Ok(new SigninCommand.Response()
             {
@@ -94,7 +95,9 @@ namespace RDS.API.Features.Tokens
                 AccessTokenExpiredAt = DateTime.UtcNow.AddMinutes(jwtExpMins).ToString("o"),
                 RefreshToken = refTokenRecord.RefToken,
                 RefreshTokenExpiredAt = refTokenRecord.RefTokenExpAt.ToString("o"),
-            });
+                UserName = user.Username,
+                UserId = user.Id.ToString()
+            }); ;
         }
 
         /// <summary>
@@ -122,7 +125,7 @@ namespace RDS.API.Features.Tokens
 
             // get current user
             var user = await _userRepo.Query()
-                .FirstOrDefaultAsync(x => x.Id == bearerToken.StaffId);
+                .FirstOrDefaultAsync(x => x.Id == bearerToken.UserId);
 
             // check csn
             if (bearerToken.RefTokenExpAt < DateTime.UtcNow)

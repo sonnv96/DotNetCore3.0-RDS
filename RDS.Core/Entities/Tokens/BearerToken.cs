@@ -10,7 +10,7 @@ namespace RDS.Core.Entities.Tokens
 
         public string RefToken { get; set; }
 
-        public int StaffId { get; set; }
+        public int UserId { get; set; }
 
         public DateTime RefTokenExpAt { get; set; }
     }
